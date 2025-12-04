@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - Smart Energy Vehicle Platform</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --secondary-gradient: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+        --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        --danger-gradient: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+
+        --bg-primary: #0a0e27;
+        --bg-secondary: #111827;
+        --bg-card: rgba(30, 41, 59, 0.6);
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-muted: #94a3b8;
+        --glass-bg: rgba(255, 255, 255, 0.05);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+        --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+        --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      .dashboard-container {
+        display: grid;
+        grid-template-columns: 250px 1fr;
+        min-height: 100vh;
+      }
+
+      /* ===== SIDEBAR ===== */
+      .sidebar {
+        background: rgba(10, 14, 39, 0.8);
+        border-right: 1px solid var(--glass-border);
+        padding: 2rem 1rem;
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        width: 250px;
+        overflow-y: auto;
+        backdrop-filter: blur(20px);
+      }
+
+      .sidebar-logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 2rem;
+        color: var(--text-primary);
+        text-decoration: none;
+      }
+
+      .sidebar-logo-icon {
+        font-size: 1.75rem;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .sidebar-logo-text {
+        font-family: "Poppins", sans-serif;
+        font-weight: 700;
+        font-size: 1rem;
+      }
+
+      .nav-menu {
+        list-style: none;
+      }
+
+      .nav-item {
+        margin-bottom: 0.5rem;
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.75rem 1rem;
+        color: var(--text-secondary);
+        text-decoration: none;
+        border-radius: 0.75rem;
+        transition: all var(--transition-base);
+        cursor: pointer;
+      }
+
+      .nav-link:hover,
+      .nav-link.active {
+        background: var(--glass-bg);
+        color: var(--text-primary);
+        border-left: 3px solid #667eea;
+      }
+
+      .nav-link i {
+        width: 20px;
+        text-align: center;
+      }
+
+      .logout-btn {
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--glass-border);
+      }
+
+      /* ===== MAIN CONTENT ===== */
+      .main-content {
+        margin-left: 250px;
+        padding: 2rem;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        background: var(--glass-bg);
+        backdrop-filter: blur(10px);
+        padding: 1.5rem;
+        border-radius: 1rem;
+        border: 1px solid var(--glass-border);
+      }
+
+      .header h1 {
+        font-family: "Poppins", sans-serif;
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .header p {
+        color: var(--text-muted);
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .user-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--primary-gradient);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        color: white;
+      }
+
+      /* ===== TABS ===== */
+      .tabs {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid var(--glass-border);
+        padding-bottom: 1rem;
+      }
+
+      .tab-btn {
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        padding: 0.5rem 1.5rem;
+        cursor: pointer;
+        font-weight: 600;
+        border-bottom: 3px solid transparent;
+        transition: all var(--transition-base);
+      }
+
+      .tab-btn:hover,
+      .tab-btn.active {
+        color: var(--text-primary);
+        border-bottom-color: #667eea;
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* ===== CARDS ===== */
+      .card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 1.5rem;
+        padding: 2rem;
+        transition: all var(--transition-base);
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .stat-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 1.5rem;
+        padding: 1.5rem;
+        text-align: center;
+      }
+
+      .stat-card i {
+        font-size: 2.5rem;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1rem;
+      }
+
+      .stat-card h3 {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-card .value {
+        font-family: "Poppins", sans-serif;
+        font-size: 2rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* ===== FORMS ===== */
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--glass-border);
+        border-radius: 0.75rem;
+        color: var(--text-primary);
+        font-family: "Inter", sans-serif;
+        transition: all var(--transition-base);
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #667eea;
+        background: rgba(102, 126, 234, 0.1);
+      }
+
+      /* ===== BUTTONS ===== */
+      .btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.75rem;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: all var(--transition-base);
+        font-family: "Inter", sans-serif;
+      }
+
+      .btn-primary {
+        background: var(--primary-gradient);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-secondary {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        color: var(--text-primary);
+      }
+
+      .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .btn-danger {
+        background: var(--danger-gradient);
+        color: white;
+      }
+
+      .btn-danger:hover {
+        transform: translateY(-2px);
+      }
+
+      .btn-sm {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+
+      /* ===== VEHICLE LIST ===== */
+      .vehicle-item {
+        background: var(--glass-bg);
+        border: 1px solid var(--glass-border);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .vehicle-info h3 {
+        margin-bottom: 0.5rem;
+      }
+
+      .vehicle-info p {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+      }
+
+      .vehicle-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      /* ===== MODAL ===== */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(5px);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal.active {
+        display: flex;
+      }
+
+      .modal-content {
+        background: var(--bg-secondary);
+        border: 1px solid var(--glass-border);
+        border-radius: 1.5rem;
+        padding: 2rem;
+        max-width: 500px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .modal-header h2 {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.5rem;
+      }
+
+      .close-btn {
+        background: none;
+        border: none;
+        color: var(--text-primary);
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 768px) {
+        .dashboard-container {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          position: fixed;
+          left: -250px;
+          transition: left var(--transition-base);
+          z-index: 1500;
+        }
+
+        .sidebar.active {
+          left: 0;
+        }
+
+        .main-content {
+          margin-left: 0;
+        }
+
+        .header {
+          flex-direction: column;
+          text-align: center;
+          gap: 1rem;
+        }
+
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .tabs {
+          flex-wrap: wrap;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <!-- ===== SIDEBAR ===== -->
+      <aside class="sidebar" id="sidebar">
+        <a href="/" class="sidebar-logo">
+          <span class="sidebar-logo-icon">⚡</span>
+          <span class="sidebar-logo-text">SEVP</span>
+        </a>
+
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="#" class="nav-link active" data-tab="dashboard">
+              <i class="fas fa-chart-line"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-tab="vehicles">
+              <i class="fas fa-car"></i>
+              <span>My Vehicles</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-tab="energy">
+              <i class="fas fa-bolt"></i>
+              <span>Energy Tracking</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-tab="stations">
+              <i class="fas fa-gas-pump"></i>
+              <span>Stations</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-tab="routes">
+              <i class="fas fa-route"></i>
+              <span>Routes</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-tab="emergency">
+              <i class="fas fa-exclamation-circle"></i>
+              <span>Emergency</span>
+            </a>
+          </li>
+
+          <li class="nav-item logout-btn">
+            <a href="#" class="nav-link" id="logoutBtn">
+              <i class="fas fa-sign-out-alt"></i>
+              <span>Logout</span>
+            </a>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- ===== MAIN CONTENT ===== -->
+      <main class="main-content">
+        <div class="header">
+          <div>
+            <h1>Welcome, <span id="userName">User</span>!</h1>
+            <p id="userEmail">user@example.com</p>
+          </div>
+          <div class="user-info">
+            <div class="user-avatar" id="userAvatar">U</div>
+          </div>
+        </div>
+
+        <!-- ===== DASHBOARD TAB ===== -->
+        <div id="dashboard" class="tab-content active">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <i class="fas fa-car"></i>
+              <h3>Total Vehicles</h3>
+              <div class="value" id="vehicleCount">0</div>
+            </div>
+            <div class="stat-card">
+              <i class="fas fa-bolt"></i>
+              <h3>Avg Efficiency</h3>
+              <div class="value" id="avgEfficiency">0 km/l</div>
+            </div>
+            <div class="stat-card">
+              <i class="fas fa-leaf"></i>
+              <h3>CO₂ Saved</h3>
+              <div class="value" id="co2Saved">0 kg</div>
+            </div>
+            <div class="stat-card">
+              <i class="fas fa-dollar-sign"></i>
+              <h3>Money Saved</h3>
+              <div class="value" id="moneySaved">$0</div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-bottom: 2rem">
+            <h3 style="margin-bottom: 1.5rem; font-family: Poppins">
+              Energy Consumption (Last 30 Days)
+            </h3>
+            <canvas id="energyChart" height="80"></canvas>
+          </div>
+        </div>
+
+        <!-- ===== VEHICLES TAB ===== -->
+        <div id="vehicles" class="tab-content">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 2rem;
+            "
+          >
+            <h2 style="font-family: Poppins">My Vehicles</h2>
+            <button class="btn btn-primary" id="addVehicleBtn">
+              <i class="fas fa-plus"></i> Add Vehicle
+            </button>
+          </div>
+          <div id="vehiclesList"></div>
+        </div>
+
+        <!-- ===== ENERGY TRACKING TAB ===== -->
+        <div id="energy" class="tab-content">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 2rem;
+            "
+          >
+            <h2 style="font-family: Poppins">Energy Tracking</h2>
+            <button class="btn btn-primary" id="addEnergyLogBtn">
+              <i class="fas fa-plus"></i> Log Energy
+            </button>
+          </div>
+          <div class="card">
+            <div id="energyLogsList"></div>
+          </div>
+        </div>
+
+        <!-- ===== STATIONS TAB ===== -->
+        <div id="stations" class="tab-content">
+          <h2 style="font-family: Poppins; margin-bottom: 2rem">
+            Find Stations
+          </h2>
+          <div class="card">
+            <div class="form-group">
+              <label>Station Type</label>
+              <select id="stationType">
+                <option value="">All Types</option>
+                <option value="Petrol">Petrol</option>
+                <option value="EV_Charging">EV Charging</option>
+                <option value="Hybrid">Hybrid</option>
+                <option value="CNC">CNC</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" onclick="searchStations()">
+              Search
+            </button>
+          </div>
+          <div id="stationsList" style="margin-top: 2rem"></div>
+        </div>
+
+        <!-- ===== ROUTES TAB ===== -->
+        <div id="routes" class="tab-content">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 2rem;
+            "
+          >
+            <h2 style="font-family: Poppins">Routes</h2>
+            <button class="btn btn-primary" id="addRouteBtn">
+              <i class="fas fa-plus"></i> Plan Route
+            </button>
+          </div>
+          <div id="routesList"></div>
+        </div>
+
+        <!-- ===== EMERGENCY TAB ===== -->
+        <div id="emergency" class="tab-content">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 2rem;
+            "
+          >
+            <h2 style="font-family: Poppins">Emergency Contacts</h2>
+            <button class="btn btn-primary" id="addContactBtn">
+              <i class="fas fa-plus"></i> Add Contact
+            </button>
+          </div>
+          <button
+            class="btn btn-danger"
+            id="sosBtn"
+            style="margin-bottom: 2rem; width: 100%; padding: 1rem"
+          >
+            <i class="fas fa-exclamation-circle"></i> EMERGENCY SOS
+          </button>
+          <div id="contactsList"></div>
+        </div>
+      </main>
+    </div>
+
+    <!-- ===== MODALS ===== -->
+
+    <!-- Add Vehicle Modal -->
+    <div id="vehicleModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Add New Vehicle</h2>
+          <button class="close-btn" onclick="closeModal('vehicleModal')">
+            &times;
+          </button>
+        </div>
+        <form id="vehicleForm" onsubmit="addVehicle(event)">
+          <div class="form-group">
+            <label>Vehicle Name</label>
+            <input type="text" required placeholder="My Car" />
+          </div>
+          <div class="form-group">
+            <label>Vehicle Type</label>
+            <select required>
+              <option value="Petrol">Petrol</option>
+              <option value="EV">Electric (EV)</option>
+              <option value="Hybrid">Hybrid</option>
+              <option value="CNC">CNC</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Make</label>
+            <input type="text" placeholder="Toyota" />
+          </div>
+          <div class="form-group">
+            <label>Model</label>
+            <input type="text" placeholder="Fortuner" />
+          </div>
+          <div class="form-group">
+            <label>Year</label>
+            <input type="number" placeholder="2023" />
+          </div>
+          <div class="form-group">
+            <label>Fuel Capacity (Liters)</label>
+            <input type="number" step="0.1" placeholder="60" />
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%">
+            Add Vehicle
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Add Emergency Contact Modal -->
+    <div id="contactModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Add Emergency Contact</h2>
+          <button class="close-btn" onclick="closeModal('contactModal')">
+            &times;
+          </button>
+        </div>
+        <form id="contactForm" onsubmit="addEmergencyContact(event)">
+          <div class="form-group">
+            <label>Contact Name</label>
+            <input type="text" required placeholder="Mom" />
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" required placeholder="+1234567890" />
+          </div>
+          <div class="form-group">
+            <label>Relationship</label>
+            <input type="text" placeholder="Mother" />
+          </div>
+          <label> <input type="checkbox" /> Primary Contact </label>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            style="width: 100%; margin-top: 1rem"
+          >
+            Add Contact
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Add Energy Log Modal -->
+    <div id="energyModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Log Energy Consumption</h2>
+          <button class="close-btn" onclick="closeModal('energyModal')">
+            &times;
+          </button>
+        </div>
+        <form id="energyForm" onsubmit="addEnergyLog(event)">
+          <div class="form-group">
+            <label>Vehicle</label>
+            <select id="energyVehicle" required></select>
+          </div>
+          <div class="form-group">
+            <label>Energy Consumed (L/kWh)</label>
+            <input type="number" step="0.01" required placeholder="10.5" />
+          </div>
+          <div class="form-group">
+            <label>Distance Traveled (km)</label>
+            <input type="number" step="0.1" required placeholder="150" />
+          </div>
+          <div class="form-group">
+            <label>Cost</label>
+            <input type="number" step="0.01" required placeholder="1000" />
+          </div>
+          <div class="form-group">
+            <label>CO₂ Emissions (kg)</label>
+            <input type="number" step="0.01" placeholder="23.5" />
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%">
+            Log Energy
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+      const API_BASE = "http://localhost:5000/api";
+
+      // Tab Navigation
+      document.querySelectorAll(".nav-link").forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          const tabName = link.dataset.tab;
+          if (tabName) {
+            switchTab(tabName);
+            document
+              .querySelectorAll(".nav-link")
+              .forEach((l) => l.classList.remove("active"));
+            link.classList.add("active");
+          }
+        });
+      });
+
+      function switchTab(tabName) {
+        document
+          .querySelectorAll(".tab-content")
+          .forEach((tab) => tab.classList.remove("active"));
+        document.getElementById(tabName)?.classList.add("active");
+      }
+
+      // Modal Management
+      function openModal(modalId) {
+        document.getElementById(modalId)?.classList.add("active");
+      }
+
+      function closeModal(modalId) {
+        document.getElementById(modalId)?.classList.remove("active");
+      }
+
+      window.onclick = (e) => {
+        if (e.target.classList.contains("modal")) {
+          e.target.classList.remove("active");
+        }
+      };
+
+      // Load User Profile
+      async function loadUserProfile() {
+        try {
+          const response = await fetch(`${API_BASE}/auth/profile`);
+          const user = await response.json();
+          document.getElementById("userName").textContent =
+            user.full_name || user.username;
+          document.getElementById("userEmail").textContent = user.email;
+          document.getElementById("userAvatar").textContent = (
+            user.full_name || user.username
+          )
+            .charAt(0)
+            .toUpperCase();
+        } catch (error) {
+          console.error("Error loading profile:", error);
+        }
+      }
+
+      // Load Vehicles
+      async function loadVehicles() {
+        try {
+          const response = await fetch(`${API_BASE}/vehicles`);
+          const vehicles = await response.json();
+          const vehiclesList = document.getElementById("vehiclesList");
+          vehiclesList.innerHTML = vehicles
+            .map(
+              (v) => `
+                    <div class="vehicle-item">
+                        <div class="vehicle-info">
+                            <h3>${v.vehicle_name}</h3>
+                            <p>${v.make} ${v.model} (${v.year}) - ${v.vehicle_type}</p>
+                        </div>
+                        <div class="vehicle-actions">
+                            <button class="btn btn-sm btn-secondary" onclick="editVehicle(${v.id})">Edit</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteVehicle(${v.id})">Delete</button>
+                        </div>
+                    </div>
+                `
+            )
+            .join("");
+
+          // Update vehicle select in energy modal
+          const select = document.getElementById("energyVehicle");
+          select.innerHTML = vehicles
+            .map((v) => `<option value="${v.id}">${v.vehicle_name}</option>`)
+            .join("");
+
+          document.getElementById("vehicleCount").textContent = vehicles.length;
+        } catch (error) {
+          console.error("Error loading vehicles:", error);
+        }
+      }
+
+      // Add Vehicle
+      async function addVehicle(e) {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
+
+        const vehicleData = {
+          vehicle_name:
+            formData.get("vehicle_name") ||
+            form.querySelector('input[placeholder="My Car"]').value,
+          vehicle_type: form.querySelector("select").value,
+          make: form.querySelector('input[placeholder="Toyota"]').value,
+          model: form.querySelector('input[placeholder="Fortuner"]').value,
+          year: parseInt(form.querySelector('input[placeholder="2023"]').value),
+          fuel_capacity: parseFloat(
+            form.querySelector('input[placeholder="60"]').value
+          ),
+        };
+
+        try {
+          const response = await fetch(`${API_BASE}/vehicles`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(vehicleData),
+          });
+
+          if (response.ok) {
+            closeModal("vehicleModal");
+            form.reset();
+            loadVehicles();
+          }
+        } catch (error) {
+          console.error("Error adding vehicle:", error);
+          alert("Error adding vehicle. Please try again.");
+        }
+      }
+
+      // Add Energy Log
+      async function addEnergyLog(e) {
+        e.preventDefault();
+        const form = e.target;
+        const energyData = {
+          vehicle_id: parseInt(form.querySelector("#energyVehicle").value),
+          energy_consumed: parseFloat(
+            form.querySelectorAll('input[type="number"]')[0].value
+          ),
+          distance_traveled: parseFloat(
+            form.querySelectorAll('input[type="number"]')[1].value
+          ),
+          cost: parseFloat(
+            form.querySelectorAll('input[type="number"]')[2].value
+          ),
+          co2_emissions:
+            parseFloat(
+              form.querySelectorAll('input[type="number"]')[3].value
+            ) || 0,
+        };
+
+        try {
+          const response = await fetch(`${API_BASE}/energy-logs`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(energyData),
+          });
+
+          if (response.ok) {
+            closeModal("energyModal");
+            form.reset();
+            loadEnergyLogs();
+            loadDashboardStats();
+          }
+        } catch (error) {
+          console.error("Error adding energy log:", error);
+          alert("Error logging energy. Please try again.");
+        }
+      }
+
+      // Load Energy Logs
+      async function loadEnergyLogs() {
+        try {
+          const response = await fetch(`${API_BASE}/energy-logs?days=30`);
+          const logs = await response.json();
+          const logsList = document.getElementById("energyLogsList");
+          logsList.innerHTML = logs
+            .map(
+              (log) => `
+                    <div style="padding: 1rem; border-bottom: 1px solid var(--glass-border);">
+                        <h4>${log.distance_traveled} km</h4>
+                        <p>Energy: ${log.energy_consumed} | Cost: $${
+                log.cost
+              } | Efficiency: ${log.efficiency.toFixed(2)} km/l</p>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">${new Date(
+                          log.date
+                        ).toLocaleDateString()}</p>
+                    </div>
+                `
+            )
+            .join("");
+        } catch (error) {
+          console.error("Error loading energy logs:", error);
+        }
+      }
+
+      // Load Dashboard Stats
+      async function loadDashboardStats() {
+        try {
+          const response = await fetch(`${API_BASE}/energy-summary?days=30`);
+          const summary = await response.json();
+          document.getElementById("avgEfficiency").textContent =
+            summary.average_efficiency.toFixed(2) + " km/l";
+          document.getElementById("co2Saved").textContent =
+            summary.total_co2.toFixed(2) + " kg";
+          document.getElementById("moneySaved").textContent =
+            "$" + summary.total_cost.toFixed(2);
+        } catch (error) {
+          console.error("Error loading stats:", error);
+        }
+      }
+
+      // Add Emergency Contact
+      async function addEmergencyContact(e) {
+        e.preventDefault();
+        const form = e.target;
+        const contactData = {
+          contact_name: form.querySelector('input[placeholder="Mom"]').value,
+          phone: form.querySelector('input[placeholder="+1234567890"]').value,
+          relationship: form.querySelector('input[placeholder="Mother"]').value,
+          is_primary: form.querySelector('input[type="checkbox"]').checked,
+        };
+
+        try {
+          const response = await fetch(`${API_BASE}/emergency-contacts`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(contactData),
+          });
+
+          if (response.ok) {
+            closeModal("contactModal");
+            form.reset();
+            loadEmergencyContacts();
+          }
+        } catch (error) {
+          console.error("Error adding contact:", error);
+          alert("Error adding contact. Please try again.");
+        }
+      }
+
+      // Load Emergency Contacts
+      async function loadEmergencyContacts() {
+        try {
+          const response = await fetch(`${API_BASE}/emergency-contacts`);
+          const contacts = await response.json();
+          const contactsList = document.getElementById("contactsList");
+          contactsList.innerHTML = contacts
+            .map(
+              (c) => `
+                    <div class="vehicle-item">
+                        <div class="vehicle-info">
+                            <h3>${c.contact_name}</h3>
+                            <p>${c.phone} - ${c.relationship} ${
+                c.is_primary ? "(Primary)" : ""
+              }</p>
+                        </div>
+                        <div class="vehicle-actions">
+                            <button class="btn btn-sm btn-danger" onclick="deleteContact(${
+                              c.id
+                            })">Delete</button>
+                        </div>
+                    </div>
+                `
+            )
+            .join("");
+        } catch (error) {
+          console.error("Error loading contacts:", error);
+        }
+      }
+
+      // Logout
+      document.getElementById("logoutBtn")?.addEventListener("click", (e) => {
+        e.preventDefault();
+        fetch(`${API_BASE}/auth/logout`, { method: "POST" }).then(() => {
+          window.location.href = "/";
+        });
+      });
+
+      // Button Event Listeners
+      document
+        .getElementById("addVehicleBtn")
+        ?.addEventListener("click", () => openModal("vehicleModal"));
+      document
+        .getElementById("addContactBtn")
+        ?.addEventListener("click", () => openModal("contactModal"));
+      document
+        .getElementById("addEnergyLogBtn")
+        ?.addEventListener("click", () => openModal("energyModal"));
+
+      // Initialize Dashboard
+      loadUserProfile();
+      loadVehicles();
+      loadEnergyLogs();
+      loadDashboardStats();
+      loadEmergencyContacts();
+    </script>
+  </body>
+</html>

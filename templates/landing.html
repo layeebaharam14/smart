@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Smart Energy Vehicle Platform - Drive Smarter, Save More, Stay Safe
+    </title>
+
+    <!-- Google Fonts - Premium Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <style>
+      /* ========================================
+           PREMIUM LANDING PAGE - Smart Energy Vehicle Platform
+           Hackathon-Winning First Impression Design
+           ======================================== */
+
+      /* CSS Reset */
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* CSS Variables - Premium Color Palette */
+      :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --secondary-gradient: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+        --accent-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+
+        --bg-primary: #0a0e27;
+        --bg-secondary: #111827;
+        --bg-card: rgba(30, 41, 59, 0.6);
+
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-muted: #94a3b8;
+
+        --glass-bg: rgba(255, 255, 255, 0.05);
+        --glass-border: rgba(255, 255, 255, 0.1);
+
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+        --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+        --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+        --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
+        --shadow-glow: 0 0 30px rgba(99, 102, 241, 0.5);
+
+        --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+        --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      /* Base Styles */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        background: var(--bg-primary);
+        background-image: radial-gradient(
+            at 0% 0%,
+            rgba(99, 102, 241, 0.15) 0px,
+            transparent 50%
+          ),
+          radial-gradient(
+            at 100% 0%,
+            rgba(139, 92, 246, 0.15) 0px,
+            transparent 50%
+          ),
+          radial-gradient(
+            at 0% 100%,
+            rgba(14, 165, 233, 0.15) 0px,
+            transparent 50%
+          ),
+          radial-gradient(
+            at 100% 100%,
+            rgba(245, 87, 108, 0.1) 0px,
+            transparent 50%
+          );
+        background-attachment: fixed;
+        color: var(--text-primary);
+        line-height: 1.6;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* ===== HEADER / NAVIGATION ===== */
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background: rgba(10, 14, 39, 0.8);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border-bottom: 1px solid var(--glass-border);
+        padding: 1rem 0;
+        transition: all var(--transition-base);
+      }
+
+      header.scrolled {
+        box-shadow: var(--shadow-lg);
+        background: rgba(10, 14, 39, 0.95);
+      }
+
+      nav {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        color: var(--text-primary);
+        transition: transform var(--transition-base);
+      }
+
+      .logo-container:hover {
+        transform: translateY(-2px);
+      }
+
+      .logo-icon {
+        font-size: 2rem;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5));
+      }
+
+      .logo-text {
+        font-family: "Poppins", sans-serif;
+        font-weight: 700;
+        font-size: 1.25rem;
+        background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        list-style: none;
+      }
+
+      .nav-links a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: all var(--transition-base);
+        position: relative;
+        padding: 0.5rem 0;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--primary-gradient);
+        transition: width var(--transition-base);
+      }
+
+      .nav-links a:hover {
+        color: var(--text-primary);
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      .nav-cta {
+        background: var(--primary-gradient);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: all var(--transition-base);
+        box-shadow: var(--shadow-glow);
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        border: none;
+      }
+
+      .nav-cta::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+      }
+
+      .nav-cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 40px rgba(99, 102, 241, 0.6);
+      }
+
+      .nav-cta:hover::before {
+        width: 300px;
+        height: 300px;
+      }
+
+      .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--text-primary);
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      /* ===== HERO SECTION ===== */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        padding: 8rem 2rem 4rem;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+          circle at 50% 50%,
+          rgba(99, 102, 241, 0.1) 0%,
+          transparent 70%
+        );
+        animation: pulse 4s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.8;
+          transform: scale(1.1);
+        }
+      }
+
+      .hero-content {
+        max-width: 900px;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        animation: fadeInUp 1s ease-out;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .hero-icon {
+        font-size: 5rem;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        filter: drop-shadow(0 0 30px rgba(99, 102, 241, 0.6));
+        margin-bottom: 1.5rem;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      .hero h1 {
+        font-family: "Poppins", sans-serif;
+        font-size: clamp(2.5rem, 5vw, 4.5rem);
+        font-weight: 800;
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: -0.02em;
+      }
+
+      .hero .tagline {
+        font-size: clamp(1.1rem, 2vw, 1.35rem);
+        color: var(--text-secondary);
+        margin-bottom: 2.5rem;
+        line-height: 1.7;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-buttons {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 3rem;
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        padding: 1.25rem 2.5rem;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1.05rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        transition: all var(--transition-base);
+        font-family: "Inter", sans-serif;
+        border: none;
+        cursor: pointer;
+      }
+
+      .btn-primary {
+        background: var(--primary-gradient);
+        color: white;
+        box-shadow: var(--shadow-glow);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 16px 48px rgba(99, 102, 241, 0.6);
+      }
+
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid var(--glass-border);
+        color: var(--text-primary);
+        backdrop-filter: blur(10px);
+      }
+
+      .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(99, 102, 241, 0.5);
+        transform: translateY(-3px);
+      }
+
+      /* ===== SECTIONS ===== */
+      section {
+        padding: 6rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .section-title {
+        font-family: "Poppins", sans-serif;
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .section-subtitle {
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 1.15rem;
+        margin-bottom: 4rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* ===== HOME / INTRODUCTION SECTION ===== */
+      .intro-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+      .intro-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid var(--glass-border);
+        border-radius: 1.5rem;
+        padding: 2.5rem;
+        text-align: center;
+        transition: all var(--transition-base);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .intro-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--primary-gradient);
+      }
+
+      .intro-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-xl);
+        border-color: rgba(99, 102, 241, 0.4);
+      }
+
+      .intro-card-icon {
+        font-size: 3rem;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1.5rem;
+      }
+
+      .intro-card h3 {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--text-primary);
+      }
+
+      .intro-card p {
+        color: var(--text-secondary);
+        line-height: 1.7;
+      }
+
+      /* ===== ABOUT US SECTION ===== */
+      .about-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+        margin-top: 3rem;
+      }
+
+      .about-text {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: var(--text-secondary);
+      }
+
+      .about-text h3 {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 1.5rem;
+      }
+
+      .about-text p {
+        margin-bottom: 1.5rem;
+      }
+
+      .about-features {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+
+      .about-feature {
+        background: var(--glass-bg);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--glass-border);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        transition: all var(--transition-base);
+      }
+
+      .about-feature:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-md);
+      }
+
+      .about-feature-icon {
+        font-size: 2rem;
+        color: var(--text-accent);
+        margin-bottom: 0.75rem;
+      }
+
+      .about-feature h4 {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .about-feature p {
+        font-size: 0.95rem;
+        color: var(--text-muted);
+        margin: 0;
+      }
+
+      /* ===== FEATURES SECTION ===== */
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+      .feature-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid var(--glass-border);
+        border-radius: 1.5rem;
+        padding: 2.5rem;
+        transition: all var(--transition-base);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .feature-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--primary-gradient);
+      }
+
+      .feature-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: var(--shadow-xl);
+        border-color: rgba(99, 102, 241, 0.4);
+      }
+
+      .feature-icon {
+        font-size: 3.5rem;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1.5rem;
+        display: block;
+      }
+
+      .feature-card h3 {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--text-primary);
+      }
+
+      .feature-card p {
+        color: var(--text-secondary);
+        line-height: 1.7;
+      }
+
+      /* ===== FOOTER ===== */
+      footer {
+        background: rgba(10, 14, 39, 0.8);
+        backdrop-filter: blur(20px);
+        border-top: 1px solid var(--glass-border);
+        padding: 3rem 2rem;
+        text-align: center;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 2rem;
+      }
+
+      .footer-logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: var(--text-primary);
+        text-decoration: none;
+      }
+
+      .footer-logo-icon {
+        font-size: 1.5rem;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .footer-logo-text {
+        font-family: "Poppins", sans-serif;
+        font-weight: 700;
+        font-size: 1.1rem;
+      }
+
+      .footer-copyright {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+      }
+
+      /* ===== RESPONSIVE DESIGN ===== */
+      @media (max-width: 968px) {
+        .nav-links {
+          position: fixed;
+          top: 70px;
+          left: 0;
+          right: 0;
+          background: rgba(10, 14, 39, 0.98);
+          backdrop-filter: blur(20px);
+          flex-direction: column;
+          padding: 2rem;
+          transform: translateX(-100%);
+          transition: transform var(--transition-base);
+          border-bottom: 1px solid var(--glass-border);
+        }
+
+        .nav-links.active {
+          transform: translateX(0);
+        }
+
+        .mobile-menu-toggle {
+          display: block;
+        }
+
+        .about-content {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+
+        .about-features {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .btn-primary,
+        .btn-secondary {
+          width: 100%;
+          max-width: 300px;
+          justify-content: center;
+        }
+      }
+
+      @media (max-width: 640px) {
+        section {
+          padding: 4rem 1.5rem;
+        }
+
+        .hero {
+          padding: 6rem 1.5rem 3rem;
+        }
+
+        .footer-content {
+          flex-direction: column;
+          text-align: center;
+        }
+      }
+
+      /* ===== SCROLL ANIMATIONS ===== */
+      .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease-out;
+      }
+
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Smooth scrollbar */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.2);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--primary-gradient);
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--accent-gradient);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ===== HEADER / NAVIGATION ===== -->
+    <header id="header">
+      <nav>
+        <a href="#home" class="logo-container">
+          <span class="logo-icon">⚡</span>
+          <span class="logo-text">Smart Energy Vehicle Platform</span>
+        </a>
+
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#features">Features</a></li>
+          <li>
+            <button class="nav-cta" id="getStartedBtn">Get Started</button>
+          </li>
+        </ul>
+
+        <button
+          class="mobile-menu-toggle"
+          id="mobileMenuToggle"
+          aria-label="Toggle menu"
+        >
+          <i class="fas fa-bars"></i>
+        </button>
+      </nav>
+    </header>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero" id="home">
+      <div class="hero-content">
+        <div class="hero-icon">⚡</div>
+        <h1>Smart Energy Vehicle Platform</h1>
+        <p class="tagline">
+          Solving range anxiety, rising fuel costs, and unsafe breakdowns with
+          one smart, connected driving companion. Drive smarter, save more, stay
+          safe.
+        </p>
+        <div class="hero-buttons">
+          <button class="btn-primary" id="heroGetStarted">
+            <span>Get Started</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+          <a href="#features" class="btn-secondary">
+            <span>Explore Features</span>
+            <i class="fas fa-chevron-down"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== HOME / INTRODUCTION SECTION ===== -->
+    <section id="intro">
+      <h2 class="section-title">Your Intelligent Driving Companion</h2>
+      <p class="section-subtitle">
+        An all-in-one platform that combines energy tracking, smart routing,
+        emergency support, and AI-powered insights to revolutionize your driving
+        experience.
+      </p>
+
+      <div class="intro-grid fade-in">
+        <div class="intro-card">
+          <div class="intro-card-icon">
+            <i class="fas fa-route"></i>
+          </div>
+          <h3>Smart Route Planning</h3>
+          <p>
+            Optimize your routes for minimum energy usage with AI-powered
+            suggestions that consider traffic, weather, and your vehicle type.
+          </p>
+        </div>
+
+        <div class="intro-card fade-in">
+          <div class="intro-card-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3>Energy Tracking</h3>
+          <p>
+            Monitor your monthly consumption, track CO₂ emissions, and discover
+            savings opportunities with detailed analytics and insights.
+          </p>
+        </div>
+
+        <div class="intro-card fade-in">
+          <div class="intro-card-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3>Emergency Support</h3>
+          <p>
+            Stay protected with instant accident SOS, family alerts, and
+            location-aware mechanical support when you need it most.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ABOUT US SECTION ===== -->
+    <section id="about">
+      <h2 class="section-title">About Our Platform</h2>
+      <p class="section-subtitle">
+        Understanding the challenges modern drivers face and how we solve them.
+      </p>
+
+      <div class="about-content fade-in">
+        <div class="about-text">
+          <h3>The Problem We Solve</h3>
+          <p>
+            Vehicle users today face multiple challenges related to fuel and
+            energy management. Unpredictable fuel prices, rising consumption,
+            difficulty locating nearby stations, and lack of real-time insights
+            into driving efficiency create frustration and waste.
+          </p>
+          <p>
+            Additionally, there's no single integrated system that provides
+            accurate energy forecasting, smart route planning, and personalized
+            driving recommendations. In emergencies like accidents or mechanical
+            failures, users struggle to get immediate help or notify family
+            members.
+          </p>
+          <p>
+            Existing tools work separately and fail to offer a unified,
+            intelligent, and safety-focused experience.
+          </p>
+
+          <h3 style="margin-top: 2rem">Our Solution</h3>
+          <p>
+            The Smart Energy Vehicle Platform is an all-in-one solution that
+            combines energy tracking, price forecasting, efficiency scoring,
+            station finding, emergency support, AI-driven suggestions, and
+            user-friendly analytics to help users drive smarter, save energy,
+            and stay safe on the road.
+          </p>
+        </div>
+
+        <div class="about-features">
+          <div class="about-feature">
+            <div class="about-feature-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <h4>Target Users</h4>
+            <p>
+              Individual vehicle owners, fleet managers, and eco-conscious
+              drivers seeking smarter energy management.
+            </p>
+          </div>
+
+          <div class="about-feature">
+            <div class="about-feature-icon">
+              <i class="fas fa-lightbulb"></i>
+            </div>
+            <h4>Core Benefits</h4>
+            <p>
+              Reduce energy costs, minimize environmental impact, and enhance
+              road safety with intelligent insights.
+            </p>
+          </div>
+
+          <div class="about-feature">
+            <div class="about-feature-icon">
+              <i class="fas fa-bullseye"></i>
+            </div>
+            <h4>Our Vision</h4>
+            <p>
+              Create a unified platform that makes sustainable and safe driving
+              accessible to everyone.
+            </p>
+          </div>
+
+          <div class="about-feature">
+            <div class="about-feature-icon">
+              <i class="fas fa-heart"></i>
+            </div>
+            <h4>Our Purpose</h4>
+            <p>
+              Empower drivers with the tools and knowledge needed to make
+              smarter, safer, and more sustainable choices.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FEATURES SECTION ===== -->
+    <section id="features">
+      <h2 class="section-title">Platform Features</h2>
+      <p class="section-subtitle">
+        Comprehensive tools and insights to transform your driving experience.
+      </p>
+
+      <div class="features-grid">
+        <div class="feature-card fade-in">
+          <i class="fas fa-car feature-icon"></i>
+          <h3>Vehicle Setup & Personalization</h3>
+          <p>
+            Configure your vehicle type (Petrol, EV, Hybrid, CNC) for
+            personalized insights, units, and recommendations tailored to your
+            energy profile.
+          </p>
+        </div>
+
+        <div class="feature-card fade-in">
+          <i class="fas fa-tachometer-alt feature-icon"></i>
+          <h3>Interactive Dashboard</h3>
+          <p>
+            Track monthly energy consumption, CO₂ emissions, AI-driven savings,
+            and driving efficiency scores with beautiful, real-time
+            visualizations.
+          </p>
+        </div>
+
+        <div class="feature-card fade-in">
+          <i class="fas fa-gas-pump feature-icon"></i>
+          <h3>Station & Charging Finder</h3>
+          <p>
+            Discover nearby petrol pumps, EV charging stations, hybrid fuel
+            stations, and CNC refueling points with smart filters and sorting
+            options.
+          </p>
+        </div>
+
+        <div class="feature-card fade-in">
+          <i class="fas fa-route feature-icon"></i>
+          <h3>Route Optimizer</h3>
+          <p>
+            Compare shortest, most energy-efficient, and traffic-aware routes
+            tailored to your vehicle type for optimal energy savings.
+          </p>
+        </div>
+
+        <div class="feature-card fade-in">
+          <i class="fas fa-chart-bar feature-icon"></i>
+          <h3>Driving Analysis</h3>
+          <p>
+            Understand how your driving style affects energy consumption with
+            behavior snapshots, personalized AI tips, and gamification badges.
+          </p>
+        </div>
+
+        <div class="feature-card fade-in">
+          <i class="fas fa-bell feature-icon"></i>
+          <h3>Alerts & Notifications</h3>
+          <p>
+            Stay updated with real-time alerts on prices, battery/fuel levels,
+            and unusual consumption patterns tailored to your preferences.
+          </p>
+        </div>
+
+        <div class="feature-card fade-in">
+          <i class="fas fa-exclamation-triangle feature-icon"></i>
+          <h3>Emergency Assistance</h3>
+          <p>
+            Quick access to official helplines, family contacts, and nearby
+            service centers for accidents, mechanical issues, or fuel
+            emergencies.
+          </p>
+        </div>
+
+        <div class="feature-card fade-in">
+          <i class="fas fa-brain feature-icon"></i>
+          <h3>AI-Powered Predictions</h3>
+          <p>
+            Explore forecasts for energy prices, monthly consumption, and future
+            traffic patterns with actionable insights.
+          </p>
+        </div>
+
+        <div class="feature-card fade-in">
+          <i class="fas fa-leaf feature-icon"></i>
+          <h3>Environmental Insights</h3>
+          <p>
+            See your environmental impact, CO₂ footprint, and discover
+            eco-friendly alternatives to drive greener and reduce emissions.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+      <div class="footer-content">
+        <a href="#home" class="footer-logo">
+          <span class="footer-logo-icon">⚡</span>
+          <span class="footer-logo-text">Smart Energy Vehicle Platform</span>
+        </a>
+        <p class="footer-copyright">
+          © 2024 Smart Energy Vehicle Platform. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <!-- ===== AUTHENTICATION MODALS ===== -->
+    <div id="authOverlay" class="modal-overlay">
+      <div class="auth-modal" style="position: relative">
+        <button class="close-modal" onclick="closeAuthModal()">&times;</button>
+
+        <!-- Login Form -->
+        <div id="loginForm" class="auth-form">
+          <h2>Welcome Back</h2>
+          <div class="error-message" id="loginError"></div>
+          <form onsubmit="handleLogin(event)">
+            <div class="form-group">
+              <label>Username</label>
+              <input
+                type="text"
+                id="loginUsername"
+                required
+                placeholder="Enter your username"
+              />
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                id="loginPassword"
+                required
+                placeholder="Enter your password"
+              />
+            </div>
+            <button type="submit" class="auth-btn">Login</button>
+          </form>
+          <div class="toggle-auth">
+            Don't have an account?
+            <button onclick="toggleAuthForm()">Sign Up</button>
+          </div>
+        </div>
+
+        <!-- Register Form -->
+        <div id="registerForm" class="auth-form" style="display: none">
+          <h2>Create Account</h2>
+          <div class="error-message" id="registerError"></div>
+          <form onsubmit="handleRegister(event)">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input
+                type="text"
+                id="registerName"
+                required
+                placeholder="John Doe"
+              />
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input
+                type="email"
+                id="registerEmail"
+                required
+                placeholder="john@example.com"
+              />
+            </div>
+            <div class="form-group">
+              <label>Username</label>
+              <input
+                type="text"
+                id="registerUsername"
+                required
+                placeholder="johndoe"
+              />
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                id="registerPassword"
+                required
+                placeholder="At least 6 characters"
+              />
+            </div>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="tel" id="registerPhone" placeholder="+1234567890" />
+            </div>
+            <button type="submit" class="auth-btn">Sign Up</button>
+          </form>
+          <div class="toggle-auth">
+            Already have an account?
+            <button onclick="toggleAuthForm()">Login</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+      const API_BASE = "http://localhost:5000/api";
+
+      // Mobile Menu Toggle
+      const mobileMenuToggle = document.getElementById("mobileMenuToggle");
+      const navLinks = document.getElementById("navLinks");
+
+      if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener("click", () => {
+          navLinks.classList.toggle("active");
+          const icon = mobileMenuToggle.querySelector("i");
+          if (navLinks.classList.contains("active")) {
+            icon.classList.remove("fa-bars");
+            icon.classList.add("fa-times");
+          } else {
+            icon.classList.remove("fa-times");
+            icon.classList.add("fa-bars");
+          }
+        });
+      }
+
+      // Close mobile menu when clicking a link
+      const navLinkItems = document.querySelectorAll(".nav-links a");
+      navLinkItems.forEach((link) => {
+        link.addEventListener("click", () => {
+          navLinks.classList.remove("active");
+          const icon = mobileMenuToggle.querySelector("i");
+          icon.classList.remove("fa-times");
+          icon.classList.add("fa-bars");
+        });
+      });
+
+      // Header scroll effect
+      const header = document.getElementById("header");
+      let lastScroll = 0;
+
+      window.addEventListener("scroll", () => {
+        const currentScroll = window.pageYOffset;
+
+        if (currentScroll > 100) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+
+        lastScroll = currentScroll;
+      });
+
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          const href = this.getAttribute("href");
+          if (href !== "#" && href !== "#home") {
+            e.preventDefault();
+            const target = document.querySelector(href);
+            if (target) {
+              const headerHeight = header.offsetHeight;
+              const targetPosition = target.offsetTop - headerHeight;
+
+              window.scrollTo({
+                top: targetPosition,
+                behavior: "smooth",
+              });
+            }
+          }
+        });
+      });
+
+      // Scroll animation observer
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      }, observerOptions);
+
+      // Observe all fade-in elements
+      document.querySelectorAll(".fade-in").forEach((el) => {
+        observer.observe(el);
+      });
+
+      // Add stagger animation to feature cards
+      const featureCards = document.querySelectorAll(".feature-card");
+      featureCards.forEach((card, index) => {
+        card.style.transitionDelay = `${index * 0.1}s`;
+      });
+
+      // Hero button click animation
+      const heroButtons = document.querySelectorAll(".hero-buttons a");
+      heroButtons.forEach((button) => {
+        button.addEventListener("click", function (e) {
+          // Only add animation if it's not the "Get Started" link
+          if (!this.getAttribute("href").includes("index.html")) {
+            // Create ripple effect
+            const ripple = document.createElement("span");
+            ripple.style.position = "absolute";
+            ripple.style.borderRadius = "50%";
+            ripple.style.background = "rgba(255, 255, 255, 0.6)";
+            ripple.style.transform = "scale(0)";
+            ripple.style.animation = "ripple 0.6s linear";
+            ripple.style.left = "50%";
+            ripple.style.top = "50%";
+            ripple.style.width = "100px";
+            ripple.style.height = "100px";
+            ripple.style.marginLeft = "-50px";
+            ripple.style.marginTop = "-50px";
+
+            this.style.position = "relative";
+            this.style.overflow = "hidden";
+            this.appendChild(ripple);
+
+            setTimeout(() => ripple.remove(), 600);
+          }
+        });
+      });
+
+      // Add ripple animation keyframes
+      const style = document.createElement("style");
+      style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+      document.head.appendChild(style);
+
+      // Authentication Modal Functions
+      function openAuthModal() {
+        document.getElementById("authOverlay").classList.add("active");
+      }
+
+      function closeAuthModal() {
+        document.getElementById("authOverlay").classList.remove("active");
+      }
+
+      function toggleAuthForm() {
+        document.getElementById("loginForm").style.display =
+          document.getElementById("loginForm").style.display === "none"
+            ? "block"
+            : "none";
+        document.getElementById("registerForm").style.display =
+          document.getElementById("registerForm").style.display === "none"
+            ? "block"
+            : "none";
+      }
+
+      async function handleLogin(e) {
+        e.preventDefault();
+        const username = document.getElementById("loginUsername").value;
+        const password = document.getElementById("loginPassword").value;
+        const errorDiv = document.getElementById("loginError");
+
+        try {
+          const response = await fetch(`${API_BASE}/auth/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password }),
+          });
+
+          if (response.ok) {
+            window.location.href = "/dashboard";
+          } else {
+            const error = await response.json();
+            errorDiv.textContent = error.error || "Login failed";
+            errorDiv.classList.add("show");
+          }
+        } catch (error) {
+          errorDiv.textContent = "An error occurred. Please try again.";
+          errorDiv.classList.add("show");
+        }
+      }
+
+      async function handleRegister(e) {
+        e.preventDefault();
+        const full_name = document.getElementById("registerName").value;
+        const email = document.getElementById("registerEmail").value;
+        const username = document.getElementById("registerUsername").value;
+        const password = document.getElementById("registerPassword").value;
+        const phone = document.getElementById("registerPhone").value;
+        const errorDiv = document.getElementById("registerError");
+
+        try {
+          const response = await fetch(`${API_BASE}/auth/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              full_name,
+              email,
+              username,
+              password,
+              phone,
+            }),
+          });
+
+          if (response.ok) {
+            window.location.href = "/dashboard";
+          } else {
+            const error = await response.json();
+            errorDiv.textContent = error.error || "Registration failed";
+            errorDiv.classList.add("show");
+          }
+        } catch (error) {
+          errorDiv.textContent = "An error occurred. Please try again.";
+          errorDiv.classList.add("show");
+        }
+      }
+
+      // Get Started Buttons
+      // navigate to main app page
+      document
+        .getElementById("getStartedBtn")
+        ?.addEventListener("click", () => {
+          // open the app and jump directly to Vehicle Setup
+          window.location.href = "/app#vehicle";
+        });
+      document
+        .getElementById("heroGetStarted")
+        ?.addEventListener("click", () => {
+          // open the app and jump directly to Vehicle Setup
+          window.location.href = "/app#vehicle";
+        });
+
+      // Close modal on overlay click
+      document.getElementById("authOverlay")?.addEventListener("click", (e) => {
+        if (e.target.id === "authOverlay") {
+          closeAuthModal();
+        }
+      });
+
+      // Console message for developers
+      console.log(
+        "%c⚡ Smart Energy Vehicle Platform",
+        "font-size: 20px; font-weight: bold; color: #6366f1;"
+      );
+      console.log(
+        "%cWelcome to our premium landing page!",
+        "font-size: 14px; color: #94a3b8;"
+      );
+    </script>
+  </body>
+</html>

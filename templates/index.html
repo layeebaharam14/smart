@@ -1,0 +1,2052 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Energy Vehicle Platform</title>
+    <!-- Google Fonts - Premium Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      /* ========================================
+   PREMIUM DESIGN SYSTEM - Smart Energy Vehicle Platform
+   Modern, Hackathon-Winning UI/UX Design
+   ======================================== */
+
+      /* ===== CSS RESET & BASE ===== */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* ===== CUSTOM PROPERTIES - Premium Color Palette ===== */
+      :root {
+        /* Primary Colors - Electric Blue/Cyan Theme */
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --primary-gradient-alt: linear-gradient(
+          135deg,
+          #0ea5e9 0%,
+          #6366f1 100%
+        );
+        --accent-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+
+        /* Glassmorphism Colors */
+        --glass-bg: rgba(255, 255, 255, 0.05);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+
+        /* Dark Theme Backgrounds */
+        --bg-primary: #0a0e27;
+        --bg-secondary: #111827;
+        --bg-tertiary: #1e293b;
+        --bg-card: rgba(30, 41, 59, 0.6);
+
+        /* Text Colors */
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-muted: #94a3b8;
+        --text-accent: #60a5fa;
+
+        /* Accent Colors */
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --info: #3b82f6;
+
+        /* Shadows & Effects */
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+        --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+        --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+        --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
+        --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.4);
+
+        /* Transitions */
+        --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+        --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+        /* Border Radius */
+        --radius-sm: 0.5rem;
+        --radius-md: 0.75rem;
+        --radius-lg: 1rem;
+        --radius-xl: 1.5rem;
+        --radius-full: 9999px;
+      }
+
+      /* ===== BASE STYLES ===== */
+      body {
+        margin: 0;
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        background: var(--bg-primary);
+        background-image: radial-gradient(
+            at 0% 0%,
+            rgba(99, 102, 241, 0.15) 0px,
+            transparent 50%
+          ),
+          radial-gradient(
+            at 100% 100%,
+            rgba(139, 92, 246, 0.15) 0px,
+            transparent 50%
+          ),
+          radial-gradient(
+            at 50% 50%,
+            rgba(14, 165, 233, 0.1) 0px,
+            transparent 50%
+          );
+        background-attachment: fixed;
+        color: var(--text-primary);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden;
+      }
+
+      /* ===== APP CONTAINER ===== */
+      #app {
+        display: flex;
+        min-height: 100vh;
+        position: relative;
+      }
+
+      /* ===== SIDEBAR - Premium Glassmorphism Design ===== */
+      .sidebar {
+        width: 280px;
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border-right: 1px solid var(--glass-border);
+        padding: 2rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        box-shadow: var(--shadow-lg);
+        z-index: 10;
+      }
+
+      .sidebar::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: var(--primary-gradient);
+        opacity: 0.5;
+      }
+
+      /* ===== LOGO ===== */
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--glass-border);
+        transition: all var(--transition-base);
+      }
+
+      .logo:hover {
+        background: rgba(255, 255, 255, 0.05);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+      }
+
+      .logo-icon {
+        font-size: 2rem;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5));
+      }
+
+      .logo-text {
+        font-family: "Poppins", sans-serif;
+        font-weight: 700;
+        font-size: 1rem;
+        background: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: -0.02em;
+      }
+
+      /* ===== VEHICLE SUMMARY ===== */
+      .vehicle-summary {
+        background: var(--glass-bg);
+        backdrop-filter: blur(10px);
+        border-radius: var(--radius-lg);
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid var(--glass-border);
+        transition: all var(--transition-base);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .vehicle-summary::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--primary-gradient);
+      }
+
+      .vehicle-summary:hover {
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+      }
+
+      .vehicle-type-label {
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .vehicle-type-value {
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: var(--text-accent);
+        background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* ===== NAVIGATION ===== */
+      .nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+        flex: 1;
+      }
+
+      .nav-item {
+        border: none;
+        background: transparent;
+        color: var(--text-secondary);
+        text-align: left;
+        padding: 0.875rem 1rem;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        transition: all var(--transition-base);
+        position: relative;
+        font-family: "Inter", sans-serif;
+        width: 100%;
+      }
+
+      .nav-item i {
+        width: 20px;
+        text-align: center;
+        font-size: 1rem;
+        opacity: 0.8;
+        transition: all var(--transition-base);
+      }
+
+      .nav-item:hover i,
+      .nav-item.active i {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+
+      .nav-item::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 3px;
+        height: 0;
+        background: var(--primary-gradient);
+        border-radius: 0 2px 2px 0;
+        transition: height var(--transition-base);
+      }
+
+      .nav-item:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text-primary);
+        transform: translateX(4px);
+        padding-left: 1.25rem;
+      }
+
+      .nav-item:hover::before {
+        height: 60%;
+      }
+
+      .nav-item.active {
+        background: var(--primary-gradient);
+        color: white;
+        box-shadow: var(--shadow-glow);
+        font-weight: 600;
+        transform: translateX(4px);
+        padding-left: 1.25rem;
+      }
+
+      .nav-item.active::before {
+        height: 100%;
+        width: 4px;
+        background: white;
+        opacity: 0.8;
+      }
+
+      /* ===== MAIN CONTENT AREA ===== */
+      .main {
+        flex: 1;
+        padding: 2.5rem 3rem;
+        overflow-y: auto;
+        position: relative;
+      }
+
+      /* Smooth scrollbar styling */
+      .main::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .main::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.2);
+      }
+
+      .main::-webkit-scrollbar-thumb {
+        background: var(--primary-gradient);
+        border-radius: var(--radius-full);
+      }
+
+      .main::-webkit-scrollbar-thumb:hover {
+        background: var(--accent-gradient);
+      }
+
+      /* ===== SECTIONS ===== */
+      .section {
+        display: none;
+        animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .section.visible {
+        display: block;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ===== SECTION HEADERS ===== */
+      .section-header {
+        margin-bottom: 2.5rem;
+      }
+
+      .section-header h1 {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: -0.02em;
+        margin-bottom: 0.75rem;
+      }
+
+      .section-header p {
+        margin-top: 0.5rem;
+        color: var(--text-secondary);
+        max-width: 700px;
+        font-size: 1.05rem;
+        line-height: 1.7;
+      }
+
+      /* ===== HERO SECTION ===== */
+      .hero-logo {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .hero-logo-icon {
+        font-size: 3.5rem;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.6));
+        animation: pulse 3s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.6));
+        }
+        50% {
+          transform: scale(1.05);
+          filter: drop-shadow(0 0 30px rgba(99, 102, 241, 0.8));
+        }
+      }
+
+      /* Floating animation for hero elements */
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .hero-logo {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      .hero-logo-text h1 {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        font-size: 2.75rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: -0.03em;
+      }
+
+      .hero-tagline {
+        margin: 0.5rem 0 0;
+        color: var(--text-secondary);
+        font-size: 1.15rem;
+        line-height: 1.6;
+        font-weight: 400;
+      }
+
+      .hero-problem {
+        margin-top: 1.5rem;
+        font-size: 1rem;
+        line-height: 1.7;
+        color: var(--text-secondary);
+      }
+
+      /* ===== CARDS - Premium Glassmorphism ===== */
+      .card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border-radius: var(--radius-xl);
+        border: 1px solid var(--glass-border);
+        padding: 2rem;
+        box-shadow: var(--shadow-lg);
+        transition: all var(--transition-base);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: var(--primary-gradient);
+        opacity: 0.6;
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-xl);
+        border-color: rgba(99, 102, 241, 0.3);
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .card h2 {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 0 0 1rem 0;
+        color: var(--text-primary);
+        letter-spacing: -0.01em;
+      }
+
+      .card h3 {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin: 0 0 0.75rem 0;
+        color: var(--text-primary);
+      }
+
+      /* ===== WELCOME GRID ===== */
+      .welcome-grid {
+        margin-top: 2rem;
+        display: grid;
+        gap: 2rem;
+        grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      }
+
+      .callout {
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.15) 0%,
+          rgba(14, 165, 233, 0.15) 100%
+        );
+        border: 1px solid rgba(99, 102, 241, 0.3);
+      }
+
+      .callout:hover {
+        border-color: rgba(99, 102, 241, 0.5);
+        box-shadow: 0 8px 40px rgba(99, 102, 241, 0.3);
+      }
+
+      .highlight {
+        border-color: rgba(96, 165, 250, 0.4);
+        background: linear-gradient(
+          135deg,
+          rgba(96, 165, 250, 0.1) 0%,
+          rgba(139, 92, 246, 0.1) 100%
+        );
+      }
+
+      .feature-list {
+        margin: 1rem 0 0;
+        padding-left: 1.5rem;
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+        line-height: 1.8;
+      }
+
+      .feature-list li {
+        margin-bottom: 0.5rem;
+        position: relative;
+      }
+
+      .feature-list li::marker {
+        color: var(--text-accent);
+      }
+
+      /* ===== LAYOUTS ===== */
+      .two-column {
+        margin-top: 2rem;
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+        gap: 2rem;
+      }
+
+      .card-grid {
+        margin-top: 2rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.5rem;
+      }
+
+      /* ===== METRIC CARDS ===== */
+      .metric-card {
+        position: relative;
+        overflow: hidden;
+        padding: 1.75rem;
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.1) 0%,
+          rgba(14, 165, 233, 0.1) 100%
+        );
+        border: 1px solid rgba(99, 102, 241, 0.2);
+      }
+
+      .metric-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--primary-gradient);
+      }
+
+      .metric-card:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.15) 0%,
+          rgba(14, 165, 233, 0.15) 100%
+        );
+        border-color: rgba(99, 102, 241, 0.4);
+      }
+
+      .metric-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--text-muted);
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+      }
+
+      .metric-value {
+        font-family: "Poppins", sans-serif;
+        font-size: 2.25rem;
+        font-weight: 700;
+        margin: 0.5rem 0;
+        background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .metric-unit {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        font-weight: 500;
+      }
+
+      /* ===== FORMS - Premium Design ===== */
+      .form-card {
+        background: var(--glass-bg);
+      }
+
+      .form-row {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1.25rem;
+      }
+
+      .form-row:last-of-type {
+        margin-bottom: 0;
+      }
+
+      .form-row label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .form-row input,
+      .form-row select,
+      .form-row textarea {
+        border-radius: var(--radius-md);
+        border: 1px solid var(--glass-border);
+        background: rgba(0, 0, 0, 0.2);
+        padding: 0.875rem 1rem;
+        color: var(--text-primary);
+        font-size: 0.95rem;
+        font-family: "Inter", sans-serif;
+        transition: all var(--transition-base);
+        width: 100%;
+      }
+
+      .form-row input:focus,
+      .form-row select:focus,
+      .form-row textarea:focus {
+        outline: none;
+        border-color: rgba(99, 102, 241, 0.6);
+        background: rgba(0, 0, 0, 0.3);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1), var(--shadow-md);
+        transform: translateY(-1px);
+      }
+
+      .form-row textarea {
+        resize: vertical;
+        min-height: 120px;
+      }
+
+      /* ===== BUTTONS - Premium Styling ===== */
+      .primary-btn,
+      .secondary-btn {
+        border-radius: var(--radius-full);
+        border: none;
+        padding: 1rem 2rem;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.95rem;
+        font-family: "Inter", sans-serif;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: all var(--transition-base);
+        position: relative;
+        overflow: hidden;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .primary-btn {
+        background: var(--primary-gradient);
+        color: white;
+        box-shadow: var(--shadow-glow);
+      }
+
+      .primary-btn::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+      }
+
+      .primary-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 40px rgba(99, 102, 241, 0.5);
+      }
+
+      .primary-btn:hover::before {
+        width: 300px;
+        height: 300px;
+      }
+
+      .primary-btn:active {
+        transform: translateY(0);
+      }
+
+      .secondary-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--glass-border);
+        color: var(--text-primary);
+        backdrop-filter: blur(10px);
+      }
+
+      .secondary-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(99, 102, 241, 0.4);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+      }
+
+      .full-width {
+        width: 100%;
+      }
+
+      /* ===== TEXT UTILITIES ===== */
+      .muted {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+      }
+
+      .muted.small {
+        font-size: 0.8rem;
+      }
+
+      /* ===== LISTS ===== */
+      .summary-list {
+        list-style: none;
+        padding: 0;
+        margin: 1rem 0 0;
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        line-height: 1.8;
+      }
+
+      .summary-list li {
+        padding-left: 1.5rem;
+        position: relative;
+        margin-bottom: 0.75rem;
+      }
+
+      .summary-list li::before {
+        content: "▸";
+        position: absolute;
+        left: 0;
+        color: var(--text-accent);
+        font-weight: bold;
+      }
+
+      .list {
+        font-size: 0.95rem;
+      }
+
+      /* ===== ALERTS ===== */
+      .alert-preferences {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid var(--glass-border);
+      }
+
+      .alert-preferences-header {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+      }
+
+      .alert-preferences-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        cursor: pointer;
+        font-size: 0.9rem;
+        color: var(--text-primary);
+        user-select: none;
+      }
+
+      .toggle input {
+        display: none;
+      }
+
+      .toggle-pill {
+        width: 44px;
+        height: 24px;
+        border-radius: var(--radius-full);
+        background: rgba(31, 41, 55, 0.8);
+        border: 2px solid var(--glass-border);
+        position: relative;
+        transition: all var(--transition-base);
+      }
+
+      .toggle-pill::after {
+        content: "";
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--text-secondary);
+        transition: all var(--transition-base);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .toggle input:checked + .toggle-pill {
+        background: var(--success);
+        border-color: var(--success);
+      }
+
+      .toggle input:checked + .toggle-pill::after {
+        transform: translateX(20px);
+        background: white;
+      }
+
+      .toggle-label {
+        font-weight: 500;
+      }
+
+      .alerts {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+      }
+
+      .alert-item {
+        padding: 1.25rem;
+        border-radius: var(--radius-md);
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--glass-border);
+        font-size: 0.9rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        transition: all var(--transition-base);
+      }
+
+      .alert-item:hover {
+        background: rgba(255, 255, 255, 0.06);
+        transform: translateX(4px);
+        border-color: rgba(99, 102, 241, 0.3);
+      }
+
+      .alert-pill {
+        font-size: 0.75rem;
+        padding: 0.375rem 0.75rem;
+        border-radius: var(--radius-full);
+        background: linear-gradient(
+          135deg,
+          rgba(96, 165, 250, 0.2) 0%,
+          rgba(139, 92, 246, 0.2) 100%
+        );
+        color: var(--text-accent);
+        font-weight: 600;
+        border: 1px solid rgba(96, 165, 250, 0.3);
+      }
+
+      /* ===== BADGES ===== */
+      .badges {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin: 1rem 0;
+      }
+
+      .badge {
+        font-size: 0.85rem;
+        padding: 0.5rem 1rem;
+        border-radius: var(--radius-full);
+        background: linear-gradient(
+          135deg,
+          rgba(16, 185, 129, 0.2) 0%,
+          rgba(5, 150, 105, 0.2) 100%
+        );
+        border: 1px solid rgba(16, 185, 129, 0.4);
+        color: #6ee7b7;
+        font-weight: 600;
+        transition: all var(--transition-base);
+      }
+
+      .badge:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        border-color: rgba(16, 185, 129, 0.6);
+      }
+
+      /* ===== CHARTS ===== */
+      canvas {
+        width: 100% !important;
+        height: auto !important;
+      }
+
+      /* ===== ROUTE MAP ===== */
+      .route-map {
+        margin-top: 1rem;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        height: 280px;
+        box-shadow: var(--shadow-md);
+        position: relative;
+        background: rgba(30, 41, 59, 0.5);
+        z-index: 1;
+      }
+
+      /* Ensure Leaflet map container is properly sized */
+      .route-map .leaflet-container {
+        height: 100% !important;
+        width: 100% !important;
+        border-radius: var(--radius-lg);
+        background: rgba(30, 41, 59, 0.5);
+      }
+
+      /* Custom marker styles */
+      .custom-marker {
+        background: transparent !important;
+        border: none !important;
+      }
+
+      /* ===== QUICK EMERGENCY BUTTONS ===== */
+      .quick-emergency {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 0.5rem;
+      }
+
+      .chip-btn {
+        border-radius: var(--radius-full);
+        border: 1px solid var(--glass-border);
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text-primary);
+        padding: 0.625rem 1.25rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all var(--transition-base);
+        font-family: "Inter", sans-serif;
+      }
+
+      .chip-btn:hover {
+        background: rgba(99, 102, 241, 0.2);
+        border-color: rgba(99, 102, 241, 0.5);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+      }
+
+      .chip-btn:active {
+        transform: translateY(0);
+      }
+
+      /* ===== RESPONSIVE DESIGN ===== */
+      @media (max-width: 1200px) {
+        .main {
+          padding: 2rem;
+        }
+
+        .card-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 960px) {
+        #app {
+          flex-direction: column;
+        }
+
+        .sidebar {
+          width: 100%;
+          flex-direction: row;
+          align-items: center;
+          overflow-x: auto;
+          padding: 1rem;
+          gap: 1rem;
+        }
+
+        .logo {
+          flex-shrink: 0;
+          margin-bottom: 0;
+          padding: 0.75rem 1rem;
+        }
+
+        .logo-text {
+          display: none;
+        }
+
+        .vehicle-summary {
+          display: none;
+        }
+
+        .nav {
+          flex-direction: row;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          margin-top: 0;
+          gap: 0.5rem;
+          flex: 1;
+        }
+
+        .nav-item {
+          white-space: nowrap;
+          font-size: 0.85rem;
+          padding: 0.75rem 1rem;
+          gap: 0.5rem;
+        }
+
+        .nav-item i {
+          font-size: 0.9rem;
+          width: 18px;
+        }
+
+        .nav-item span {
+          display: inline;
+        }
+
+        .nav-item::before {
+          display: none;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+          transform: none;
+          padding-left: 1rem;
+        }
+
+        .main {
+          padding: 1.5rem;
+        }
+
+        .section-header h1 {
+          font-size: 2rem;
+        }
+
+        .hero-logo-text h1 {
+          font-size: 2rem;
+        }
+
+        .welcome-grid,
+        .two-column,
+        .card-grid {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 1.5rem;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .main {
+          padding: 1rem;
+        }
+
+        .section-header h1 {
+          font-size: 1.75rem;
+        }
+
+        .hero-logo {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .hero-logo-text h1 {
+          font-size: 1.75rem;
+        }
+
+        .card {
+          padding: 1.5rem;
+        }
+
+        .card h2 {
+          font-size: 1.25rem;
+        }
+
+        .metric-value {
+          font-size: 1.75rem;
+        }
+      }
+
+      /* ===== ANIMATIONS & EFFECTS ===== */
+      @keyframes shimmer {
+        0% {
+          background-position: -1000px 0;
+        }
+        100% {
+          background-position: 1000px 0;
+        }
+      }
+
+      /* Loading shimmer effect (for future use) */
+      .shimmer {
+        animation: shimmer 2s infinite linear;
+        background: linear-gradient(
+          to right,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.1) 50%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        background-size: 1000px 100%;
+      }
+
+      /* Smooth page transitions */
+      * {
+        scroll-behavior: smooth;
+      }
+
+      /* Selection color */
+      ::selection {
+        background: rgba(99, 102, 241, 0.3);
+        color: white;
+      }
+
+      /* ===== ACCESSIBILITY & FOCUS STATES ===== */
+      *:focus-visible {
+        outline: 2px solid rgba(99, 102, 241, 0.6);
+        outline-offset: 2px;
+        border-radius: 4px;
+      }
+
+      button:focus-visible,
+      a:focus-visible {
+        outline: 2px solid rgba(99, 102, 241, 0.8);
+        outline-offset: 3px;
+      }
+
+      /* ===== ADDITIONAL PREMIUM TOUCHES ===== */
+      /* Glow effect for active states */
+      .nav-item.active::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: var(--radius-md);
+        padding: 1px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.3),
+          rgba(255, 255, 255, 0.1)
+        );
+        -webkit-mask: linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask-composite: exclude;
+        pointer-events: none;
+      }
+
+      /* Enhanced card shimmer on hover */
+      .card:hover::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          45deg,
+          transparent 30%,
+          rgba(255, 255, 255, 0.05) 50%,
+          transparent 70%
+        );
+        animation: shimmer 3s infinite;
+        pointer-events: none;
+      }
+
+      /* Smooth number animations for metrics */
+      .metric-value {
+        transition: transform var(--transition-base);
+      }
+
+      .metric-card:hover .metric-value {
+        transform: scale(1.05);
+      }
+
+      /* Premium scrollbar for sidebar */
+      .sidebar::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .sidebar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      .sidebar::-webkit-scrollbar-thumb {
+        background: rgba(99, 102, 241, 0.3);
+        border-radius: var(--radius-full);
+      }
+
+      .sidebar::-webkit-scrollbar-thumb:hover {
+        background: rgba(99, 102, 241, 0.5);
+      }
+
+      /* Loading skeleton (for future enhancements) */
+      @keyframes skeleton {
+        0% {
+          background-position: -200px 0;
+        }
+        100% {
+          background-position: calc(200px + 100%) 0;
+        }
+      }
+
+      .skeleton {
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.05) 0px,
+          rgba(255, 255, 255, 0.1) 40px,
+          rgba(255, 255, 255, 0.05) 80px
+        );
+        background-size: 200px 100%;
+        animation: skeleton 1.5s infinite;
+      }
+
+      /* ===== MODAL STYLES ===== */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(5px);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal-overlay.active {
+        display: flex;
+      }
+
+      .auth-modal {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid var(--glass-border);
+        border-radius: 1.5rem;
+        padding: 3rem;
+        max-width: 500px;
+        width: 90%;
+        box-shadow: var(--shadow-xl);
+        position: relative;
+      }
+
+      .close-modal {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        background: none;
+        border: none;
+        font-size: 2rem;
+        color: var(--text-primary);
+        cursor: pointer;
+        transition: all var(--transition-base);
+      }
+
+      .close-modal:hover {
+        transform: rotate(90deg);
+        color: var(--text-accent);
+      }
+
+      .auth-form h2 {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.75rem;
+        margin-bottom: 1.5rem;
+        color: var(--text-primary);
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+        font-size: 0.95rem;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        border: 1px solid var(--glass-border);
+        border-radius: var(--radius-md);
+        background: rgba(0, 0, 0, 0.2);
+        color: var(--text-primary);
+        font-size: 0.95rem;
+        font-family: "Inter", sans-serif;
+        transition: all var(--transition-base);
+      }
+
+      .form-group input:focus {
+        outline: none;
+        border-color: rgba(99, 102, 241, 0.6);
+        background: rgba(0, 0, 0, 0.3);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+      }
+
+      .auth-btn {
+        width: 100%;
+        padding: 1rem;
+        background: var(--primary-gradient);
+        color: white;
+        border: none;
+        border-radius: var(--radius-full);
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all var(--transition-base);
+        box-shadow: var(--shadow-glow);
+      }
+
+      .auth-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 40px rgba(99, 102, 241, 0.6);
+      }
+
+      .toggle-auth {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+      }
+
+      .toggle-auth button {
+        background: none;
+        border: none;
+        color: var(--text-accent);
+        cursor: pointer;
+        font-weight: 600;
+        text-decoration: underline;
+        transition: all var(--transition-base);
+      }
+
+      .toggle-auth button:hover {
+        color: var(--text-primary);
+      }
+
+      .error-message {
+        display: none;
+        padding: 1rem;
+        border-radius: var(--radius-md);
+        background: rgba(239, 68, 68, 0.15);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: #fca5a5;
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+      }
+
+      .error-message.show {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <aside class="sidebar">
+        <div class="logo">
+          <span class="logo-icon">⚡</span>
+          <span class="logo-text">Smart Energy Vehicle Platform</span>
+        </div>
+        <!-- Back to landing (returns user to the marketing page) -->
+        <a
+          id="backToLanding"
+          href="/"
+          class="secondary-btn"
+          style="
+            margin: 0.5rem 0 1rem;
+            text-align: center;
+            display: inline-block;
+          "
+        >
+          ← Back to Home
+        </a>
+        <div class="vehicle-summary">
+          <div class="vehicle-type-label">Vehicle Type</div>
+          <div id="selectedVehicleType" class="vehicle-type-value">
+            Not selected
+          </div>
+        </div>
+        <nav class="nav">
+         
+          <button class="nav-item" data-section="vehicle">
+            <i class="fas fa-car"></i>
+            <span>Vehicle Setup</span>
+          </button>
+          <button class="nav-item" data-section="dashboard">
+            <i class="fas fa-chart-line"></i>
+            <span>Dashboard</span>
+          </button>
+          <button class="nav-item" data-section="stations">
+            <i class="fas fa-gas-pump"></i>
+            <span>Stations & Charging</span>
+          </button>
+          <button class="nav-item" data-section="routes">
+            <i class="fas fa-route"></i>
+            <span>Route Optimizer</span>
+          </button>
+          <button class="nav-item" data-section="analysis">
+            <i class="fas fa-chart-bar"></i>
+            <span>Driving Analysis</span>
+          </button>
+          <button class="nav-item" data-section="alerts">
+            <i class="fas fa-bell"></i>
+            <span>Alerts</span>
+          </button>
+          <button class="nav-item" data-section="emergency">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span>Emergency</span>
+          </button>
+          <button class="nav-item" data-section="predictions">
+            <i class="fas fa-brain"></i>
+            <span>AI Predictions</span>
+          </button>
+          <button class="nav-item" data-section="environment">
+            <i class="fas fa-leaf"></i>
+            <span>Environment</span>
+          </button>
+          <button class="nav-item" data-section="feedback">
+            <i class="fas fa-comment-dots"></i>
+            <span>Feedback</span>
+          </button>
+        </nav>
+      </aside>
+
+      <main class="main">
+
+             
+            
+          
+
+        </section>
+
+        <!-- 2 & 3. Vehicle Type & Registration -->
+        <section id="vehicle" class="section">
+          <div class="section-header">
+            <h1>Vehicle Setup</h1>
+            <p>
+              Tell us about you and your vehicle so we can tailor insights to
+              your exact energy profile.
+            </p>
+          </div>
+          <div class="two-column">
+            <form id="userForm" class="card form-card">
+              <h2>Login / Registration (Optional)</h2>
+              <div class="form-row">
+                <label for="name">Name</label>
+                <input id="name" type="text" placeholder="e.g. Alex Kumar" />
+              </div>
+              <div class="form-row">
+                <label for="email">Email</label>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="e.g. alex@example.com"
+                />
+              </div>
+              <div class="form-row">
+                <label for="emergencyContactNumber"
+                  >Primary family emergency contact (phone)</label
+                >
+                <input
+                  id="emergencyContactNumber"
+                  type="tel"
+                  placeholder="e.g. +91 98765 43210"
+                />
+              </div>
+              <div class="form-row">
+                <label for="emergencyContactAltNumber"
+                  >Alternate family emergency contact (phone, optional)</label
+                >
+                <input
+                  id="emergencyContactAltNumber"
+                  type="tel"
+                  placeholder="e.g. +91 99887 77665"
+                />
+              </div>
+              <div class="form-row">
+                <label for="vehicleType">Vehicle Type</label>
+                <select id="vehicleType">
+                  <option value="">Select type</option>
+                  <option value="petrol">Petrol</option>
+                  <option value="ev">Electric Vehicle (EV)</option>
+                  <option value="hybrid">Hybrid</option>
+                  <option value="cnc">CNC / CNG</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <label for="vehicleDetails">Vehicle Details</label>
+                <input
+                  id="vehicleDetails"
+                  type="text"
+                  placeholder="e.g. Tesla Model 3, 2024"
+                />
+              </div>
+
+              <!-- Removed capacity/current/efficiency fields (handled by defaults or profile) -->
+              <!-- Keep vehicle details only; range/charge will use saved vehicle/profile values or defaults -->
+
+              <button type="submit" class="primary-btn full-width">
+                Save & Personalize
+              </button>
+            </form>
+
+            <div class="card">
+              <h2>Personalization Summary</h2>
+              <p class="muted">
+                Based on your vehicle type, we adjust energy units, station
+                types, and driving tips automatically.
+              </p>
+              <ul class="summary-list" id="personalizationSummary">
+                <li>No vehicle selected yet.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. Dashboard Overview -->
+        <section id="dashboard" class="section">
+          <div class="section-header">
+            <h1>Dashboard</h1>
+            <p>
+              Overview of your monthly energy consumption, CO₂ emissions, and
+              AI-driven savings.
+            </p>
+          </div>
+
+          <div class="card-grid">
+            <div class="card metric-card">
+              <div class="metric-label">Monthly Energy Consumption</div>
+              <div class="metric-value" id="monthlyConsumption">0</div>
+              <div class="metric-unit" id="energyUnit">kWh</div>
+            </div>
+            <div class="card metric-card">
+              <div class="metric-label">CO₂ Emissions</div>
+              <div class="metric-value" id="co2Emissions">0</div>
+              <div class="metric-unit">kg CO₂</div>
+            </div>
+            <div class="card metric-card">
+              <div class="metric-label">Savings from AI Suggestions</div>
+              <div class="metric-value" id="savings">₹0</div>
+              <div class="metric-unit">this month</div>
+            </div>
+            <div class="card metric-card">
+              <div class="metric-label">Driving Efficiency Score</div>
+              <div class="metric-value" id="efficiencyScore">0</div>
+              <div class="metric-unit">/ 100</div>
+            </div>
+
+            <!-- Remaining Range metric -->
+            <div class="card metric-card">
+              <div class="metric-label">Remaining Range</div>
+              <div class="metric-value" id="remainingRange">0 km</div>
+              <div class="metric-unit" id="remainingDetails">—</div>
+            </div>
+          </div>
+
+          <!-- NEW: Detailed Charge/Fuel Status Card -->
+          <div class="card">
+            <h2>🔋 Current Charge / Fuel Status</h2>
+            <div id="chargeStatusContainer" style="margin-top: 1.5rem">
+              <p class="muted">
+                Complete your Vehicle Setup to see charge/fuel status.
+              </p>
+            </div>
+          </div>
+
+          <div class="two-column">
+            <div class="card">
+              <h2>Energy Usage Trend</h2>
+              <canvas id="energyChart" height="200"></canvas>
+            </div>
+            <div class="card">
+              <h2>Efficiency & Savings Trend</h2>
+              <canvas id="savingsChart" height="200"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. Station / Charging Finder -->
+        <section id="stations" class="section">
+          <div class="section-header">
+            <h1>Stations & Charging Finder</h1>
+            <p>
+              Discover nearby petrol pumps, EV charging stations, hybrid fuel
+              stations, and CNC refueling points with smart filters.
+            </p>
+          </div>
+
+          <div class="two-column">
+            <div class="card">
+              <h2>Search Filters</h2>
+              <div class="filters">
+                <!-- Live location controls and station map -->
+                <div class="form-row">
+                  <label>Live Location</label>
+                  <div style="display: flex; gap: 0.5rem; align-items: center">
+                    <button id="useMyLocation" class="secondary-btn">
+                      Use my location
+                    </button>
+                    <button id="centerDefault" class="secondary-btn">
+                      Center default
+                    </button>
+                  </div>
+                  <p class="muted small">
+                    Allow browser to share location to discover nearby stations
+                    based on your vehicle.
+                  </p>
+                </div>
+                <div class="form-row">
+                  <label>Nearby Stations Map</label>
+                  <div
+                    id="stationMap"
+                    style="
+                      height: 220px;
+                      border-radius: 0.5rem;
+                      border: 1px solid rgba(255, 255, 255, 0.06);
+                      overflow: hidden;
+                    "
+                  ></div>
+                </div>
+                <div class="form-row">
+                  <label for="stationSort">Sort By</label>
+                  <select id="stationSort">
+                    <option value="closest">Closest</option>
+                    <option value="cheapest">Cheapest</option>
+                    <option value="quality">Highest Rated</option>
+                    <option value="open">24h Availability</option>
+                  </select>
+                </div>
+                <button id="findStations" class="primary-btn full-width">
+                  Find Stations
+                </button>
+              </div>
+            </div>
+
+            <div class="card">
+              <h2>Nearby Options (Mock Map)</h2>
+              <div id="stationList" class="list">
+                <p class="muted">
+                  Click "Find Stations" to simulate nearby stations based on
+                  your vehicle type.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. Route Optimizer -->
+        <section id="routes" class="section">
+          <div class="section-header">
+            <h1>Route Optimizer</h1>
+            <p>
+              Compare the shortest, most energy-efficient, and traffic-aware
+              routes tailored to your vehicle.
+            </p>
+          </div>
+
+          <div class="two-column">
+            <form id="routeForm" class="card form-card">
+              <h2>Plan a Trip</h2>
+              <div class="form-row">
+                <label for="startLocation">Start</label>
+                <input
+                  id="startLocation"
+                  type="text"
+                  placeholder="e.g. Home, Bangalore"
+                  required
+                />
+              </div>
+              <div class="form-row">
+                <label for="endLocation">Destination</label>
+                <input
+                  id="endLocation"
+                  type="text"
+                  placeholder="e.g. Office, Mysore"
+                  required
+                />
+              </div>
+              <button type="submit" class="primary-btn full-width">
+                Optimize Routes
+              </button>
+            </form>
+
+            <div class="card">
+              <h2>Route Comparison & Map</h2>
+              <div id="routeResults" class="list">
+                <p class="muted">
+                  Enter start and destination to view route options, time, and
+                  estimated energy cost. The mini-map will visualize a sample
+                  route between your locations.
+                </p>
+              </div>
+              <div id="routeMap" class="route-map"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. Personalized Driving / Energy Analysis -->
+        <section id="analysis" class="section">
+          <div class="section-header">
+            <h1>Driving & Energy Analysis</h1>
+            <p>
+              Understand how your driving style affects energy consumption and
+              unlock personalized tips and gamification.
+            </p>
+          </div>
+
+          <div class="two-column">
+            <div class="card">
+              <h2>Behavior Snapshot (Simulated)</h2>
+              <ul class="summary-list" id="behaviorSnapshot">
+                <li>Average speed: --</li>
+                <li>Harsh braking events: --</li>
+                <li>Idle time: --</li>
+                <li>Acceleration style: --</li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <h2>AI Tips</h2>
+              <ul class="summary-list" id="aiTips">
+                <li>Select your vehicle type to view personalized tips.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Gamification</h2>
+            <div class="badges" id="badges">
+              <div class="badge">New Driver</div>
+            </div>
+            <p class="muted">
+              Drive efficiently to unlock badges like "Eco Hero", "Route
+              Optimizer", and "Off-Peak Charger".
+            </p>
+          </div>
+        </section>
+
+        <!-- 8. Alerts & Notifications -->
+        <section id="alerts" class="section">
+          <div class="section-header">
+            <h1>Alerts & Notifications</h1>
+            <p>
+              Stay updated with real-time style alerts on prices, battery, fuel,
+              and unusual consumption.
+            </p>
+          </div>
+
+          <div class="card">
+            <h2>Live Alerts (Simulated)</h2>
+            <div class="alert-preferences">
+              <div class="alert-preferences-header">
+                <span>Alert Subscriptions</span>
+                <span class="muted small">
+                  Choose which notifications you want to receive.
+                </span>
+              </div>
+              <div class="alert-preferences-grid">
+                <label class="toggle">
+                  <input type="checkbox" id="alertPrice" />
+                  <span class="toggle-pill"></span>
+                  <span class="toggle-label">Price changes</span>
+                </label>
+                <label class="toggle">
+                  <input type="checkbox" id="alertBattery" />
+                  <span class="toggle-pill"></span>
+                  <span class="toggle-label">Battery / fuel warnings</span>
+                </label>
+                <label class="toggle">
+                  <input type="checkbox" id="alertAbnormal" />
+                  <span class="toggle-pill"></span>
+                  <span class="toggle-label">Abnormal consumption</span>
+                </label>
+              </div>
+            </div>
+            <div id="alertsList" class="alerts"></div>
+            <button id="generateAlert" class="secondary-btn">
+              Simulate Alert Notification
+            </button>
+          </div>
+        </section>
+
+        <!-- 9. Emergency Assistance -->
+        <section id="emergency" class="section">
+          <div class="section-header">
+            <h1>Emergency Assistance</h1>
+            <p>
+              If you are stranded, quickly find the fastest and nearest energy
+              support tailored to your vehicle.
+            </p>
+          </div>
+
+          <div class="two-column">
+            <div class="card">
+              <h2>Quick Request</h2>
+              <form id="emergencyForm" class="form-card">
+                <div class="form-row">
+                  <label for="emergencyLocation">Your Location</label>
+                  <input
+                    id="emergencyLocation"
+                    type="text"
+                    placeholder="e.g. Highway near Pune"
+                    required
+                  />
+                </div>
+                <div class="form-row">
+                  <label>Emergency Type</label>
+                  <div class="quick-emergency">
+                    <button
+                      type="button"
+                      class="chip-btn"
+                      data-emergency="fuel"
+                    >
+                      Out of fuel / battery
+                    </button>
+                    <button
+                      type="button"
+                      class="chip-btn"
+                      data-emergency="accident"
+                    >
+                      Accident
+                    </button>
+                    <button
+                      type="button"
+                      class="chip-btn"
+                      data-emergency="mechanical"
+                    >
+                      Mechanical issue
+                    </button>
+                  </div>
+                  <p class="muted small">
+                    Tap a quick option for an instant simulated recommendation,
+                    or just submit the form for a smart default based on your
+                    vehicle type.
+                  </p>
+                </div>
+                <button type="submit" class="primary-btn full-width">
+                  Find Help
+                </button>
+              </form>
+            </div>
+
+            <div class="card">
+              <h2>Suggested Assistance</h2>
+              <div id="emergencyResult" class="list">
+                <p class="muted">
+                  Submit an emergency request to simulate the nearest and
+                  fastest assistance.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 10. AI-Powered Predictions -->
+        <section id="predictions" class="section">
+          <div class="section-header">
+            <h1>AI-Powered Predictions</h1>
+            <p>
+              Explore forecasts for energy prices, your monthly consumption, and
+              future traffic patterns.
+            </p>
+          </div>
+
+          <div class="two-column">
+            <div class="card">
+              <h2>Price & Consumption Forecast</h2>
+              <canvas id="forecastChart" height="200"></canvas>
+            </div>
+            <div class="card">
+              <h2>Insights</h2>
+              <ul class="summary-list" id="predictionInsights">
+                <li>
+                  Select your vehicle type to view tailored forecast insights.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 11. Environmental Insights -->
+        <section id="environment" class="section">
+          <div class="section-header">
+            <h1>Environmental Insights</h1>
+            <p>
+              See your environmental impact and discover eco-friendly
+              alternatives to drive greener.
+            </p>
+          </div>
+
+          <div class="two-column">
+            <div class="card">
+              <h2>CO₂ Impact</h2>
+              <p id="environmentSummary" class="muted">
+                Once your driving data is available, we estimate your annual CO₂
+                footprint and how much you can save by switching routes or
+                habits.
+              </p>
+            </div>
+            <div class="card">
+              <h2>Eco-Friendly Suggestions</h2>
+              <ul class="summary-list" id="ecoSuggestions">
+                <li>Use carpooling for regular commutes.</li>
+                <li>
+                  Prefer routes with smoother traffic over shorter distance.
+                </li>
+                <li>Maintain optimal tyre pressure and regular servicing.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 12. Feedback & Experience -->
+        <section id="feedback" class="section">
+          <div class="section-header">
+            <h1>Feedback & Experience</h1>
+            <p>
+              Tell us how the Smart Energy Vehicle Platform is helping you drive
+              smarter, more efficiently, and more safely – your feedback shapes
+              our next features.
+            </p>
+          </div>
+
+          <div class="two-column">
+            <form id="feedbackForm" class="card form-card">
+              <h2>Share your experience</h2>
+              <div class="form-row">
+                <label for="feedbackRating">Overall experience</label>
+                <select id="feedbackRating" required>
+                  <option value="">Select rating</option>
+                  <option value="5">Excellent – I feel fully supported</option>
+                  <option value="4">Good – helps me most of the time</option>
+                  <option value="3">Average – useful but can improve</option>
+                  <option value="2">
+                    Below average – missing key features
+                  </option>
+                  <option value="1">Poor – did not meet my expectations</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <label for="feedbackText">Comments</label>
+                <textarea
+                  id="feedbackText"
+                  rows="4"
+                  placeholder="Share how the platform supported you, especially in planning, energy savings, or emergency situations."
+                ></textarea>
+              </div>
+              <button type="submit" class="primary-btn full-width">
+                Submit feedback
+              </button>
+              <p id="feedbackStatus" class="muted small"></p>
+            </form>
+
+            <div class="card">
+              <h2>How your feedback helps</h2>
+              <ul class="summary-list">
+                <li>
+                  Improve our emergency workflows so accident and breakdown
+                  support is faster and more reliable.
+                </li>
+                <li>
+                  Refine AI driving and energy tips for your real-world
+                  patterns.
+                </li>
+                <li>
+                  Prioritize new features such as deeper vehicle insights,
+                  smarter routing, and richer safety tools.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>
